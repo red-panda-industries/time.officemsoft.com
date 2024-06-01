@@ -8,8 +8,8 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
         timezone: 'Your timezone is:',
-        services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office MSoft</a>.',
-        funding: 'Funding for this project was furnished by the Office MSoft Foundation, Elon Musk, YCombinator, Mexico, and the Pennsylvania Department of Transportation.',
+        services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        funding: 'Funding for this project was furnished by the Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, Mexico, and the Pennsylvania Department of Transportation.',
     },
     pt: {
         timeInUTC: 'O horário em UTC é:',
@@ -18,8 +18,8 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
         timezone: 'Seu fuso horário é:',
-        services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office MSoft</a>.',
-        funding: 'O financiamento para este projeto foi fornecido pela Office MSoft Foundation, Elon Musk, YCombinator, México, e pelo Departamento de Transportes da Pensilvânia.',
+        services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        funding: 'O financiamento para este projeto foi fornecido pela Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, México, e pelo Departamento de Transportes da Pensilvânia.',
     },
     es: {
         timeInUTC: 'La hora en UTC es:',
@@ -28,8 +28,8 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
         timezone: 'Tu zona horaria es:',
-        services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office MSoft</a>.',
-        funding: 'El financiamiento para este proyecto fue proporcionado por Office MSoft Foundation, Elon Musk, YCombinator, México y el Departamento de Transporte de Pensilvania.',
+        services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        funding: 'El financiamiento para este proyecto fue proporcionado por Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, México y el Departamento de Transporte de Pensilvania.',
     },
     fr: {
         timeInUTC: 'L\'heure UTC est :',
@@ -38,8 +38,8 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Votre adresse IP est :',
         locale: 'Votre langue est :',
         timezone: 'Votre fuseau horaire est :',
-        services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office MSoft</a>.',
-        funding: 'Le financement de ce projet a été fourni par la Fondation Office MSoft, Elon Musk, YCombinator, Mexique et le ministère des Transports de Pennsylvanie.',
+        services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        funding: 'Le financement de ce projet a été fourni par la Fondation Office&nbsp;MSoft, Elon&nbsp;Musk, YCombinator, Mexique et le ministère des Transports de Pennsylvanie.',
     },
 };
 
@@ -114,6 +114,7 @@ async function asyncStart() {
     Targets.ipAddress().textContent = userIpAddress;
 }
 
+// Fetch the user's IP address
 function ipify() {
     return fetch('https://api.ipify.org?format=json')
         .then(response => response.json())
