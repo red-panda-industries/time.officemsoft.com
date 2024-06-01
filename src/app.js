@@ -22,8 +22,8 @@ const LOCALE_MESSAGES = {
     en: {
         title: 'Office MSoft Time',
         timeInUTC: 'The time in UTC is:',
-        timeInCST: 'The time in CST is:',
-        timeInBRT: 'The time in BRT is:',
+        timeInCST: 'The time in Chicago is:',
+        timeInBRT: 'The time in São Paulo is:',
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
@@ -34,8 +34,8 @@ const LOCALE_MESSAGES = {
     pt: {
         title: 'Hora Office MSoft',
         timeInUTC: 'O horário em UTC é:',
-        timeInCST: 'O horário em CST é:',
-        timeInBRT: 'O horário em BRT é:',
+        timeInCST: 'O horário em Chicago é:',
+        timeInBRT: 'O horário em São Paulo é:',
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
@@ -46,8 +46,8 @@ const LOCALE_MESSAGES = {
     es: {
         title: 'Hora Office MSoft',
         timeInUTC: 'La hora en UTC es:',
-        timeInCST: 'La hora en CST es:',
-        timeInBRT: 'La hora en BRT es:',
+        timeInCST: 'La hora en Chicago es:',
+        timeInBRT: 'La hora en São Paulo es:',
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
@@ -58,8 +58,8 @@ const LOCALE_MESSAGES = {
     fr: {
         title: 'Heure Office MSoft',
         timeInUTC: 'L\'heure en UTC est :',
-        timeInCST: 'L\'heure en CST est :',
-        timeInBRT: 'L\'heure en BRT est :',
+        timeInCST: 'L\'heure à Chicago est :',
+        timeInBRT: 'L\'heure à São Paulo est :',
         ipAddress: 'Votre adresse IP est :',
         locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
