@@ -54,12 +54,47 @@ const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 ////////////////////////
 
+const IPIFY_API_URL = 'https://api.ipify.org?format=json';
+
+function fetchUserIp() {
+    return fetch(IPIFY_API_URL)
+        .then(response => response.json())
+        .then(data => data.ip);
+}
+
+const interestingHeaderNames = [
+    'Accept-Language',
+    'Authorization',
+    'Cookie',
+    'Origin',
+    'Referer',
+    'User-Agent',
+    'Via',
+    'X-Amz-Cf-Id',
+    'X-Amzn-Trace-Id',
+    'X-Forwarded-For',
+];
+
+function fetchInterestingHeadersFromReplay() {
+    let replay = fetch(window.location.href, { method: 'HEAD' });
+    return replay.then(response => {
+        let headers = {};
+        interestingHeaderNames.forEach(header => {
+            headers[header] = response.headers.get(header);
+        });
+        return headers;
+    });
+}
+
+////////////////////////
+
 const Targets = {
     appContainer: () => document.getElementById('app'),
-    currentTimeUTC: () => document.getElementById('current-time-utc'),
-    currentTimeCST: () => document.getElementById('current-time-cst'),
-    currentTimeBRT: () => document.getElementById('current-time-brt'),
+    currentDateTimeUTC: () => document.getElementById('current-date-time-utc'),
+    currentDateTimeCST: () => document.getElementById('current-date-time-cst'),
+    currentDateTimeBRT: () => document.getElementById('current-date-time-brt'),
     ipAddress: () => document.getElementById('ip-address'),
+    interestingHeaders: () => document.getElementById('interesting-headers'),
 };
 
 ////////////////////////
@@ -68,13 +103,20 @@ document.addEventListener('DOMContentLoaded', main);
 
 function main() {
     start();
-    asyncStart();
     loop();
 }
 
 function start() {
     let initialView = buildInitialView();
     Targets.appContainer().innerHTML = initialView;
+
+    fetchUserIp().then(userIpAddress => {
+        Targets.ipAddress().textContent = userIpAddress;
+    });
+
+    fetchInterestingHeadersFromReplay().then(headers => {
+        Targets.interestingHeaders().innerHTML = JSON.stringify(headers, null, 2);
+    });
 }
 
 function loop() {
@@ -83,39 +125,31 @@ function loop() {
 }
 
 function refreshTimeDisplays() {
-    let currentTimeInUTC = new Date().toLocaleTimeString('en-US', {timeZone: 'UTC'});
-    Targets.currentTimeUTC().textContent = currentTimeInUTC;
+    let currentDateTimeUTC = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'UTC' });
+    Targets.currentDateTimeUTC().textContent = currentDateTimeUTC;
 
-    let currentTimeInCST = new Date().toLocaleTimeString('en-US', {timeZone: 'America/Chicago'});
-    Targets.currentTimeCST().textContent = currentTimeInCST;
+    let currentDateTimeCST = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Chicago' });
+    Targets.currentDateTimeCST().textContent = currentDateTimeCST;
 
-    let currentTimeInBRT = new Date().toLocaleTimeString('en-US', {timeZone: 'America/Sao_Paulo'});
-    Targets.currentTimeBRT().textContent = currentTimeInBRT;
+    let currentDateTimeBRT = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Sao_Paulo' });
+    Targets.currentDateTimeBRT().textContent = currentDateTimeBRT;
 }
 
 function buildInitialView() {
     return `
-        <p>${MESSAGES.timeInUTC} <b id="current-time-utc"></b></p>
-        <p>${MESSAGES.timeInCST} <b id="current-time-cst"></b></p>
-        <p>${MESSAGES.timeInBRT} <b id="current-time-brt"></b></p>
+        <h1>Office MSoft Time</h1>
+        <hr>
+        <p>${MESSAGES.timeInUTC} <b id="current-date-time-utc"></b></p>
+        <p>${MESSAGES.timeInCST} <b id="current-date-time-cst"></b></p>
+        <p>${MESSAGES.timeInBRT} <b id="current-date-time-brt"></b></p>
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
         <p>${MESSAGES.userAgent} <b>${navigator.userAgent}</b></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
+        <hr>
+        <p><small><span id="interesting-headers"><br><br><br><br></span></p>
+        <hr>
         <p><small>${MESSAGES.services}</small></p>
+        <p><small><a href="${window.location.href}">${window.location.href}</a></small></p>
     `;
-}
-
-////////////////////////
-
-async function asyncStart() {
-    let userIpAddress = await ipify();
-    Targets.ipAddress().textContent = userIpAddress;
-}
-
-// Fetch the user's IP address
-function ipify() {
-    return fetch('https://api.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => data.ip);
 }
