@@ -35,6 +35,8 @@ const LOCALE_MESSAGES = {
         services: `Global time services provided by ${OFFICE_MSOFT_LINK} <small>(not affiliated with Microsoft)</small>.`,
         viewing: 'You are viewing:',
         ipAddressObtained: `IP address obtained from ${IPIFY_LINK}.`,
+        errorFetchingIp: 'Error fetching IP address:',
+        errorFetchingHeaders: 'Error fetching headers:',
     },
     pt: {
         title: 'Hora Office MSoft',
@@ -48,6 +50,8 @@ const LOCALE_MESSAGES = {
         services: `Serviços de horário global fornecidos por ${OFFICE_MSOFT_LINK} <small>(não afiliado à Microsoft)</small>.`,
         viewing: 'Você está visualizando:',
         ipAddressObtained: `Endereço IP obtido de ${IPIFY_LINK}.`,
+        errorFetchingIp: 'Não foi possível obter o endereço IP:',
+        errorFetchingHeaders: 'Não foi possível obter os cabeçalhos:',        
     },
     es: {
         title: 'Hora Office MSoft',
@@ -61,6 +65,8 @@ const LOCALE_MESSAGES = {
         services: `Servicios de hora global proporcionados por ${OFFICE_MSOFT_LINK} <small>(no afiliado con Microsoft)</small>.`,
         viewing: 'Estás viendo:',
         ipAddressObtained: `Dirección IP obtenida de ${IPIFY_LINK}.`,
+        errorFetchingIp: 'No se pudo obtener la dirección IP:',
+        errorFetchingHeaders: 'No se pudieron obtener los encabezados:',
     },
     fr: {
         title: 'Heure Office MSoft',
@@ -74,13 +80,15 @@ const LOCALE_MESSAGES = {
         services: `Services de temps global fournis par ${OFFICE_MSOFT_LINK} <small>(non affilié à Microsoft).`,
         viewing: 'Vous consultez :',
         ipAddressObtained: `Adresse IP obtenue de ${IPIFY_LINK}.`,
+        errorFetchingIp: 'Impossible de récupérer l’adresse IP :',
+        errorFetchingHeaders: 'Impossible de récupérer les en-têtes :',
     },
 };
 const DEFAULT_MESSAGE_LOCALE = 'en-US';
 
 const MESSAGE_LOCALE = navigator.language || DEFAULT_MESSAGE_LOCALE;
 const MESSAGE_LOCALE_MAJOR = MESSAGE_LOCALE.split('-')[0];
-const DEFAULT_MESSAGE_LOCALE_MAJOR = DEFAULT_MESSAGE_LOCALE.split('-')[0];
+const DEFAULT_MESSAGE_LOCALE_MAJOR = 'pt';//DEFAULT_MESSAGE_LOCALE.split('-')[0];
 
 const MESSAGES = LOCALE_MESSAGES[MESSAGE_LOCALE_MAJOR] || LOCALE_MESSAGES[DEFAULT_MESSAGE_LOCALE_MAJOR];
 
@@ -120,14 +128,14 @@ function start() {
         Targets.ipAddress().textContent = userIpAddress;
     })
     .catch(error => {
-        Targets.ipAddress().textContent = `Error fetching IP: ${error}`;
+        Targets.ipAddress().textContent = `${MESSAGES.errorFetchingIp} ${error}`;
     });
 
     fetchRequestHeadersFromHttpBin().then(httpHeaders => {
         Targets.httpBinHeaders().textContent = JSON.stringify(httpHeaders, null, 2);
     })
     .catch(error => {
-        Targets.httpBinHeaders().textContent = `Error fetching headers: ${error}`
+        Targets.httpBinHeaders().textContent = `${MESSAGES.errorFetchingHeaders} ${error}`
     });
 }
 
