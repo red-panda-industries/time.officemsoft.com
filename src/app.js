@@ -13,53 +13,54 @@ const HTTPBIN_HEADERS_URL = 'https://httpbin.org/headers';
 function fetchRequestHeadersFromHttpBin() {
     return fetch(HTTPBIN_HEADERS_URL)
         .then(response => response.json())
-        .then(data => data.headers);
+        .then(data => data.headers)
+        .catch(error => `Error fetching headers: ${error}`);
 }
 
 ////////////////////////
 
 const LOCALE_MESSAGES = {
     en: {
+        title: 'Office MSoft Time',
         timeInUTC: 'The time in UTC is:',
         timeInCST: 'The time in CST is:',
         timeInBRT: 'The time in BRT is:',
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
-        userAgent: 'Your user agent is:',
         httpBinHeaders: `HTTP headers from <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
         services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     pt: {
+        title: 'Hora Office MSoft',
         timeInUTC: 'O horário em UTC é:',
         timeInCST: 'O horário em CST é:',
         timeInBRT: 'O horário em BRT é:',
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
-        userAgent: 'Seu agente de usuário é:',
         httpBinHeaders: `Cabeçalhos HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
         services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     es: {
+        title: 'Hora Office MSoft',
         timeInUTC: 'La hora en UTC es:',
         timeInCST: 'La hora en CST es:',
         timeInBRT: 'La hora en BRT es:',
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
-        userAgent: 'Tu agente de usuario es:',
         httpBinHeaders: `Encabezados HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
         services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     fr: {
-        timeInUTC: 'L\'heure UTC est :',
-        timeInCST: 'L\'heure à CST est :',
+        title: 'Heure Office MSoft',
+        timeInUTC: 'L\'heure en UTC est :',
+        timeInCST: 'L\'heure en CST est :',
         timeInBRT: 'L\'heure en BRT est :',
         ipAddress: 'Votre adresse IP est :',
-        locale: 'Votre langue est :',
+        locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
-        userAgent: 'Votre agent utilisateur est :',
         httpBinHeaders: `En-têtes HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a> :`,
         services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
@@ -76,13 +77,17 @@ const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 ////////////////////////
 
+function $(selector) {
+    return document.querySelector(selector);
+}
+
 const Targets = {
-    appContainer: () => document.getElementById('app'),
-    currentDateTimeUTC: () => document.getElementById('current-date-time-utc'),
-    currentDateTimeCST: () => document.getElementById('current-date-time-cst'),
-    currentDateTimeBRT: () => document.getElementById('current-date-time-brt'),
-    ipAddress: () => document.getElementById('ip-address'),
-    httpBinHeaders: () => document.getElementById('httpbin-headers'),
+    appContainer:       () => $('#app'),
+    currentDateTimeUTC: () => $('#current-date-time-utc'),
+    currentDateTimeCST: () => $('#current-date-time-cst'),
+    currentDateTimeBRT: () => $('#current-date-time-brt'),
+    ipAddress:          () => $('#ip-address'),
+    httpBinHeaders:     () => $('#httpbin-headers'),
 };
 
 ////////////////////////
@@ -100,19 +105,27 @@ function start() {
 
     fetchUserIp().then(userIpAddress => {
         Targets.ipAddress().textContent = userIpAddress;
+    })
+    .catch(error => {
+        Targets.ipAddress().textContent = `Error fetching IP: ${error}`;
     });
 
     fetchRequestHeadersFromHttpBin().then(httpHeaders => {
         Targets.httpBinHeaders().textContent = JSON.stringify(httpHeaders, null, 2);
+    })
+    .catch(error => {
+        Targets.httpBinHeaders().textContent = `Error fetching headers: ${error}`
     });
 }
 
+const refreshRateInMilliseconds = 1000;
+
 function loop() {
-    refreshTimeDisplays();
-    setTimeout(loop, 1000);
+    updateClockDisplays();
+    setTimeout(loop, refreshRateInMilliseconds);
 }
 
-function refreshTimeDisplays() {
+function updateClockDisplays() {
     let currentDateTimeUTC = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'UTC' });
     Targets.currentDateTimeUTC().textContent = currentDateTimeUTC;
 
@@ -125,18 +138,17 @@ function refreshTimeDisplays() {
 
 function buildInitialView() {
     return `
-        <h1>Office MSoft Time</h1>
+        <h1>${MESSAGES.title}</h1>
         <hr>
         <p>${MESSAGES.timeInUTC} <b id="current-date-time-utc"></b></p>
         <p>${MESSAGES.timeInCST} <b id="current-date-time-cst"></b></p>
         <p>${MESSAGES.timeInBRT} <b id="current-date-time-brt"></b></p>
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
-        <p>${MESSAGES.userAgent} <b>${navigator.userAgent}</b></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
         <hr>
         <p><small>${MESSAGES.httpBinHeaders}</small></p>
-        <p><small id="httpbin-headers"><br><br><br><br><br><br><br><br><br></small></p>
+        <p><small><b id="httpbin-headers"><br><br><br><br><br><br><br><br><br></b></small></p>
         <hr>
         <p><small>${MESSAGES.services}</small></p>
         <p><small><a href="${window.location.href}">${window.location.href}</a></small></p>
