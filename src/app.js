@@ -28,7 +28,8 @@ const LOCALE_MESSAGES = {
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
         httpBinHeaders: `HTTP headers from <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(not affiliated with Microsoft)</small>.',
+        viewing: 'You are viewing:',
     },
     pt: {
         title: 'Hora Office MSoft',
@@ -39,7 +40,8 @@ const LOCALE_MESSAGES = {
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
         httpBinHeaders: `Cabeçalhos HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        services: 'Serviços de horário global fornecidos por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(não afiliado à Microsoft)</small>.',
+        viewing: 'Você está visualizando:',
     },
     es: {
         title: 'Hora Office MSoft',
@@ -50,7 +52,8 @@ const LOCALE_MESSAGES = {
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
         httpBinHeaders: `Encabezados HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(no afiliado con Microsoft)</small>.',
+        viewing: 'Estás viendo:',
     },
     fr: {
         title: 'Heure Office MSoft',
@@ -61,7 +64,8 @@ const LOCALE_MESSAGES = {
         locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
         httpBinHeaders: `En-têtes HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a> :`,
-        services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
+        services: 'Services de temps global fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(non affilié à Microsoft).',
+        viewing: 'Vous consultez :',
     },
 };
 const DEFAULT_MESSAGE_LOCALE = 'en-US';
@@ -148,10 +152,11 @@ function buildInitialView() {
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
+        <hr>
         <p><small>${MESSAGES.httpBinHeaders}</small></p>
-        <p><small><b id="httpbin-headers"><br><br><br><br><br><br><br><br><br></b></small></p>
+        <p><small><code id="httpbin-headers"><br><br><br><br><br><br><br><br><br></code></small></p>
         <hr>
         <p><small>${MESSAGES.services}</small></p>
-        <p><small><a href="${window.location.href}">${window.location.href}</a></small></p>
+        <p><small>${MESSAGES.viewing} <a href="${window.location.href}">${window.location.href}</a></small></p>
     `;
 }
