@@ -13,8 +13,7 @@ const HTTPBIN_HEADERS_URL = 'https://httpbin.org/headers';
 function fetchRequestHeadersFromHttpBin() {
     return fetch(HTTPBIN_HEADERS_URL)
         .then(response => response.json())
-        .then(data => data.headers)
-        .catch(error => `Error fetching headers: ${error}`);
+        .then(data => data.headers);
 }
 
 ////////////////////////
