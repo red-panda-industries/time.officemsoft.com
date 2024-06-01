@@ -18,6 +18,10 @@ function fetchRequestHeadersFromHttpBin() {
 
 ////////////////////////
 
+const IPIFY_LINK = '<a href="https://www.ipify.org/">ipify.org</a>';
+const HTTPBIN_LINK = '<a href="https://httpbin.org/">httpbin.org</a>';
+const OFFICE_MSOFT_LINK = '<a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>';
+
 const LOCALE_MESSAGES = {
     en: {
         title: 'Office MSoft Time',
@@ -27,9 +31,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
-        httpBinHeaders: `HTTP headers from <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(not affiliated with Microsoft)</small>.',
+        httpBinHeaders: `HTTP headers from ${HTTPBIN_LINK}:`,
+        services: `Global time services provided by ${OFFICE_MSOFT_LINK} <small>(not affiliated with Microsoft)</small>.`,
         viewing: 'You are viewing:',
+        ipAddressObtained: `IP address obtained from ${IPIFY_LINK}.`,
     },
     pt: {
         title: 'Hora Office MSoft',
@@ -39,9 +44,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
-        httpBinHeaders: `Cabeçalhos HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Serviços de horário global fornecidos por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(não afiliado à Microsoft)</small>.',
+        httpBinHeaders: `Cabeçalhos HTTP de ${HTTPBIN_LINK}:`,
+        services: `Serviços de horário global fornecidos por ${OFFICE_MSOFT_LINK} <small>(não afiliado à Microsoft)</small>.`,
         viewing: 'Você está visualizando:',
+        ipAddressObtained: `Endereço IP obtido de ${IPIFY_LINK}.`,
     },
     es: {
         title: 'Hora Office MSoft',
@@ -51,9 +57,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
-        httpBinHeaders: `Encabezados HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a>:`,
-        services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(no afiliado con Microsoft)</small>.',
+        httpBinHeaders: `Encabezados HTTP de ${HTTPBIN_LINK}:`,
+        services: `Servicios de hora global proporcionados por ${OFFICE_MSOFT_LINK} <small>(no afiliado con Microsoft)</small>.`,
         viewing: 'Estás viendo:',
+        ipAddressObtained: `Dirección IP obtenida de ${IPIFY_LINK}.`,
     },
     fr: {
         title: 'Heure Office MSoft',
@@ -63,9 +70,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Votre adresse IP est :',
         locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
-        httpBinHeaders: `En-têtes HTTP de <a href="${HTTPBIN_HEADERS_URL}">${HTTPBIN_HEADERS_URL}</a> :`,
-        services: 'Services de temps global fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a> <small>(non affilié à Microsoft).',
+        httpBinHeaders: `En-têtes HTTP de ${HTTPBIN_LINK} :`,
+        services: `Services de temps global fournis par ${OFFICE_MSOFT_LINK} <small>(non affilié à Microsoft).`,
         viewing: 'Vous consultez :',
+        ipAddressObtained: `Adresse IP obtenue de ${IPIFY_LINK}.`,
     },
 };
 const DEFAULT_MESSAGE_LOCALE = 'en-US';
@@ -149,14 +157,15 @@ function buildInitialView() {
         <p>${MESSAGES.timeInChicago} <b><time id="current-date-time-chicago"></time></b></p>
         <p>${MESSAGES.timeInSaoPaulo} <b><time id="current-date-time-sao-paulo"></time></b></p>
         <hr>
-        <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
+        <p>${MESSAGES.ipAddress} <b id="ip-address">XX.XXX.XXX.XX</b><sup>*</sup></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
         <hr>
         <p><small>${MESSAGES.httpBinHeaders}</small></p>
-        <p><small><code id="httpbin-headers"><br><br><br><br><br><br><br><br><br></code></small></p>
+        <p><small><code id="httpbin-headers"><br><br><br><br><br><br></code></small></p>
         <hr>
         <p><small>${MESSAGES.services}</small></p>
+        <p><sup><b>*</b></sup><small>${MESSAGES.ipAddressObtained}</small></p>
         <p><small>${MESSAGES.viewing} <a href="${window.location.href}">${window.location.href}</a></small></p>
     `;
 }

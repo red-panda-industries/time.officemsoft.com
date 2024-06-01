@@ -33,7 +33,7 @@ p {
 }
 
 a:link, a:visited {
-    color: #11db2c;
+    color: #65f360;
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.25em;
     text-decoration-color: #11430b;
@@ -65,4 +65,8 @@ hr {
 code {
     font-family: 'VT323', monospace;
     color: #97a6a3;
+}
+
+sup {
+    line-height: 0;
 }
