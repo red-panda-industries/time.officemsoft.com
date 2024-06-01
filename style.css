@@ -18,10 +18,15 @@ h1 {
 
 p {
     margin: 0.75rem 0;
+    word-break: keep-all;
 }
 
 a:link, a:visited {
     color: #11db2c;
     text-decoration-thickness: 0.125em;
     text-underline-offset: 0.25em;
+}
+
+small {
+    font-size: 0.75rem;
 }
