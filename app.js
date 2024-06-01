@@ -7,9 +7,9 @@ const LOCALE_MESSAGES = {
         timeInBRT: 'The time in BRT is:',
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
-        timezone: 'Your timezone is:',
+        timeZone: 'Your time zone is:',
+        userAgent: 'Your user agent is:',
         services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
-        funding: 'Funding for this project was furnished by the Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, Mexico, and the Pennsylvania Department of Transportation.',
     },
     pt: {
         timeInUTC: 'O horário em UTC é:',
@@ -17,9 +17,9 @@ const LOCALE_MESSAGES = {
         timeInBRT: 'O horário em BRT é:',
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
-        timezone: 'Seu fuso horário é:',
+        timeZone: 'Seu fuso horário é:',
+        userAgent: 'Seu agente de usuário é:',
         services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
-        funding: 'O financiamento para este projeto foi fornecido pela Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, México, e pelo Departamento de Transportes da Pensilvânia.',
     },
     es: {
         timeInUTC: 'La hora en UTC es:',
@@ -27,9 +27,9 @@ const LOCALE_MESSAGES = {
         timeInBRT: 'La hora en BRT es:',
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
-        timezone: 'Tu zona horaria es:',
+        timeZone: 'Tu zona horaria es:',
+        userAgent: 'Tu agente de usuario es:',
         services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
-        funding: 'El financiamiento para este proyecto fue proporcionado por Office&nbsp;MSoft Foundation, Elon&nbsp;Musk, YCombinator, México y el Departamento de Transporte de Pensilvania.',
     },
     fr: {
         timeInUTC: 'L\'heure UTC est :',
@@ -37,19 +37,18 @@ const LOCALE_MESSAGES = {
         timeInBRT: 'L\'heure en BRT est :',
         ipAddress: 'Votre adresse IP est :',
         locale: 'Votre langue est :',
-        timezone: 'Votre fuseau horaire est :',
+        timeZone: 'Votre fuseau horaire est :',
+        userAgent: 'Votre agent utilisateur est :',
         services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
-        funding: 'Le financement de ce projet a été fourni par la Fondation Office&nbsp;MSoft, Elon&nbsp;Musk, YCombinator, Mexique et le ministère des Transports de Pennsylvanie.',
-    },
+},
 };
 
-const DEFAULT_LANGUAGE = 'en-US';
+const DEFAULT_MESSAGE_LOCALE = 'en-US';
 
-const USER_LANGUAGE = navigator.language || DEFAULT_LANGUAGE;
-const DEFAULT_LANGUAGE_MAJOR = DEFAULT_LANGUAGE.split('-')[0];
-const USER_LANGUAGE_MAJOR = USER_LANGUAGE.split('-')[0];
-
-const MESSAGES = LOCALE_MESSAGES[USER_LANGUAGE_MAJOR] || LOCALE_MESSAGES[DEFAULT_LANGUAGE_MAJOR];
+const MESSAGE_LOCALE = navigator.language || DEFAULT_MESSAGE_LOCALE;
+const MESSAGE_LOCALE_MAJOR = MESSAGE_LOCALE.split('-')[0];
+const DEFAULT_MESSAGE_LOCALE_MAJOR = DEFAULT_MESSAGE_LOCALE.split('-')[0];
+const MESSAGES = LOCALE_MESSAGES[MESSAGE_LOCALE_MAJOR] || LOCALE_MESSAGES[DEFAULT_MESSAGE_LOCALE_MAJOR];
 
 const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
@@ -100,10 +99,10 @@ function buildInitialView() {
         <p>${MESSAGES.timeInCST} <b id="current-time-cst"></b></p>
         <p>${MESSAGES.timeInBRT} <b id="current-time-brt"></b></p>
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
-        <p>${MESSAGES.locale} <b>${USER_LANGUAGE}</b></p>
-        <p>${MESSAGES.timezone} <b>${USER_TIMEZONE}</b></p>
+        <p>${MESSAGES.userAgent} <b>${navigator.userAgent}</b></p>
+        <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
+        <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
         <p><small>${MESSAGES.services}</small></p>
-        <p><small>${MESSAGES.funding}</small></p>
     `;
 }
 
