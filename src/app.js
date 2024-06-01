@@ -147,13 +147,13 @@ function loop() {
 }
 
 function updateClockTargets() {
-    let currentDateTimeUTC = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'UTC' });
+    let currentDateTimeUTC = new Date().toLocaleString(undefined, { timeZone: 'UTC' });
     Targets.currentDateTimeUTC().textContent = currentDateTimeUTC;
 
-    let currentDateTimeChicago = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Chicago' });
+    let currentDateTimeChicago = new Date().toLocaleString(undefined, { timeZone: 'America/Chicago' });
     Targets.currentDateTimeChicago().textContent = currentDateTimeChicago;
 
-    let currentDateTimeSaoPaulo = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Sao_Paulo' });
+    let currentDateTimeSaoPaulo = new Date().toLocaleString(undefined, { timeZone: 'America/Sao_Paulo' });
     Targets.currentDateTimeSaoPaulo().textContent = currentDateTimeSaoPaulo;
 }
 
