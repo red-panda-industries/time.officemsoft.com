@@ -100,6 +100,8 @@ function main() {
 }
 
 function start() {
+    document.title = MESSAGES.title;
+
     let initialView = buildInitialView();
     Targets.appContainer().innerHTML = initialView;
 
