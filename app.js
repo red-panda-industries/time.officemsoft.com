@@ -9,6 +9,7 @@ const LOCALE_MESSAGES = {
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
         userAgent: 'Your user agent is:',
+        httpBinHeaders: 'HTTP headers from <a href="https://httpbin.org/headers">httpbin.org</a>:',
         services: 'Global time services provided by <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     pt: {
@@ -19,6 +20,7 @@ const LOCALE_MESSAGES = {
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
         userAgent: 'Seu agente de usuário é:',
+        httpBinHeaders: 'Cabeçalhos HTTP de <a href="https://httpbin.org/headers">httpbin.org</a>:',
         services: 'Serviços de horário global fornecidos pelo <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     es: {
@@ -29,6 +31,7 @@ const LOCALE_MESSAGES = {
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
         userAgent: 'Tu agente de usuario es:',
+        httpBinHeaders: 'Encabezados HTTP de <a href="https://httpbin.org/headers">httpbin.org</a>:',
         services: 'Servicios de hora global proporcionados por <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
     },
     fr: {
@@ -39,6 +42,7 @@ const LOCALE_MESSAGES = {
         locale: 'Votre langue est :',
         timeZone: 'Votre fuseau horaire est :',
         userAgent: 'Votre agent utilisateur est :',
+        httpBinHeaders: 'En-têtes HTTP de <a href="https://httpbin.org/headers">httpbin.org</a> :',
         services: 'Services d\'heure globale fournis par <a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>.',
 },
 };
@@ -62,28 +66,12 @@ function fetchUserIp() {
         .then(data => data.ip);
 }
 
-const interestingHeaderNames = [
-    'Accept-Language',
-    'Authorization',
-    'Cookie',
-    'Origin',
-    'Referer',
-    'User-Agent',
-    'Via',
-    'X-Amz-Cf-Id',
-    'X-Amzn-Trace-Id',
-    'X-Forwarded-For',
-];
+const HTTPBIN_HEADERS_URL = 'https://httpbin.org/headers';
 
-function fetchInterestingHeadersFromReplay() {
-    let replay = fetch(window.location.href, { method: 'HEAD' });
-    return replay.then(response => {
-        let headers = {};
-        interestingHeaderNames.forEach(header => {
-            headers[header] = response.headers.get(header);
-        });
-        return headers;
-    });
+function fetchRequestHeaders() {
+    return fetch(HTTPBIN_HEADERS_URL)
+        .then(response => response.json())
+        .then(data => data.headers);
 }
 
 ////////////////////////
@@ -94,7 +82,7 @@ const Targets = {
     currentDateTimeCST: () => document.getElementById('current-date-time-cst'),
     currentDateTimeBRT: () => document.getElementById('current-date-time-brt'),
     ipAddress: () => document.getElementById('ip-address'),
-    interestingHeaders: () => document.getElementById('interesting-headers'),
+    httpbinHeaders: () => document.getElementById('httpbin-headers'),
 };
 
 ////////////////////////
@@ -114,8 +102,8 @@ function start() {
         Targets.ipAddress().textContent = userIpAddress;
     });
 
-    fetchInterestingHeadersFromReplay().then(headers => {
-        Targets.interestingHeaders().innerHTML = JSON.stringify(headers, null, 2);
+    fetchRequestHeaders().then(headers => {
+        Targets.httpbinHeaders().textContent = JSON.stringify(headers, null, 4);
     });
 }
 
@@ -147,7 +135,8 @@ function buildInitialView() {
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
         <hr>
-        <p><small><span id="interesting-headers"><br><br><br><br></span></p>
+        <p><small>${MESSAGES.httpBinHeaders}</small></p>
+        <p><small id="httpbin-headers"><br><br><br><br><br><br><br><br><br></small></p>
         <hr>
         <p><small>${MESSAGES.services}</small></p>
         <p><small><a href="${window.location.href}">${window.location.href}</a></small></p>
