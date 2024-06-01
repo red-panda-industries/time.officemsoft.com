@@ -22,8 +22,8 @@ const LOCALE_MESSAGES = {
     en: {
         title: 'Office MSoft Time',
         timeInUTC: 'The time in UTC is:',
-        timeInCST: 'The time in Chicago is:',
-        timeInBRT: 'The time in São Paulo is:',
+        timeInChicago: 'The time in Chicago is:',
+        timeInSaoPaulo: 'The time in São Paulo is:',
         ipAddress: 'Your IP address is:',
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
@@ -34,8 +34,8 @@ const LOCALE_MESSAGES = {
     pt: {
         title: 'Hora Office MSoft',
         timeInUTC: 'O horário em UTC é:',
-        timeInCST: 'O horário em Chicago é:',
-        timeInBRT: 'O horário em São Paulo é:',
+        timeInChicago: 'O horário em Chicago é:',
+        timeInSaoPaulo: 'O horário em São Paulo é:',
         ipAddress: 'Seu endereço IP é:',
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
@@ -46,8 +46,8 @@ const LOCALE_MESSAGES = {
     es: {
         title: 'Hora Office MSoft',
         timeInUTC: 'La hora en UTC es:',
-        timeInCST: 'La hora en Chicago es:',
-        timeInBRT: 'La hora en São Paulo es:',
+        timeInChicago: 'La hora en Chicago es:',
+        timeInSaoPaulo: 'La hora en São Paulo es:',
         ipAddress: 'Tu dirección IP es:',
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
@@ -58,8 +58,8 @@ const LOCALE_MESSAGES = {
     fr: {
         title: 'Heure Office MSoft',
         timeInUTC: 'L\'heure en UTC est :',
-        timeInCST: 'L\'heure à Chicago est :',
-        timeInBRT: 'L\'heure à São Paulo est :',
+        timeInChicago: 'L\'heure à Chicago est :',
+        timeInSaoPaulo: 'L\'heure à São Paulo est :',
         ipAddress: 'Votre adresse IP est :',
         locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
@@ -85,12 +85,12 @@ function $(selector) {
 }
 
 const Targets = {
-    appContainer:       () => $('#app'),
-    currentDateTimeUTC: () => $('#current-date-time-utc'),
-    currentDateTimeCST: () => $('#current-date-time-cst'),
-    currentDateTimeBRT: () => $('#current-date-time-brt'),
-    ipAddress:          () => $('#ip-address'),
-    httpBinHeaders:     () => $('#httpbin-headers'),
+    appContainer:               () => $('#app'),
+    currentDateTimeUTC:         () => $('#current-date-time-utc'),
+    currentDateTimeChicago:     () => $('#current-date-time-chicago'),
+    currentDateTimeSaoPaulo:    () => $('#current-date-time-sao-paulo'),
+    ipAddress:                  () => $('#ip-address'),
+    httpBinHeaders:             () => $('#httpbin-headers'),
 };
 
 ////////////////////////
@@ -134,11 +134,11 @@ function updateClockDisplays() {
     let currentDateTimeUTC = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'UTC' });
     Targets.currentDateTimeUTC().textContent = currentDateTimeUTC;
 
-    let currentDateTimeCST = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Chicago' });
-    Targets.currentDateTimeCST().textContent = currentDateTimeCST;
+    let currentDateTimeChicago = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Chicago' });
+    Targets.currentDateTimeChicago().textContent = currentDateTimeChicago;
 
-    let currentDateTimeBRT = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Sao_Paulo' });
-    Targets.currentDateTimeBRT().textContent = currentDateTimeBRT;
+    let currentDateTimeSaoPaulo = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'America/Sao_Paulo' });
+    Targets.currentDateTimeSaoPaulo().textContent = currentDateTimeSaoPaulo;
 }
 
 function buildInitialView() {
@@ -146,8 +146,8 @@ function buildInitialView() {
         <h1>${MESSAGES.title}</h1>
         <hr>
         <p>${MESSAGES.timeInUTC} <b><time id="current-date-time-utc"></time></b></p>
-        <p>${MESSAGES.timeInCST} <b><time id="current-date-time-cst"></time></b></p>
-        <p>${MESSAGES.timeInBRT} <b><time id="current-date-time-brt"></time></b></p>
+        <p>${MESSAGES.timeInChicago} <b><time id="current-date-time-chicago"></time></b></p>
+        <p>${MESSAGES.timeInSaoPaulo} <b><time id="current-date-time-sao-paulo"></time></b></p>
         <hr>
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
