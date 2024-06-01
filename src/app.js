@@ -1,24 +1,20 @@
 'use strict';
 
-const IPIFY_API_URL = 'https://api.ipify.org?format=json';
-
-function fetchUserIpFromIpify() {
-    return fetch(IPIFY_API_URL)
-        .then(response => response.json())
-        .then(data => data.ip);
-}
-
-const HTTPBIN_HEADERS_URL = 'https://httpbin.org/headers';
-
-function fetchRequestHeadersFromHttpBin() {
-    return fetch(HTTPBIN_HEADERS_URL)
-        .then(response => response.json())
-        .then(data => data.headers);
+const HttpBin = {
+    fetchHeaders: () => {
+        return fetch('https://httpbin.org/headers')
+            .then(response => response.json())
+            .then(data => data.headers);
+    },
+    fetchIpAddress: () => {
+        return fetch('https://httpbin.org/ip')
+            .then(response => response.json())
+            .then(data => data.origin);
+    },
 }
 
 ////////////////////////
 
-const IPIFY_LINK = '<a href="https://www.ipify.org/">ipify.org</a>';
 const HTTPBIN_LINK = '<a href="https://httpbin.org/">httpbin.org</a>';
 const OFFICE_MSOFT_LINK = '<a href="https://www.officemsoft.com/">Office&nbsp;MSoft</a>';
 
@@ -31,10 +27,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Your public IP address is:',
         locale: 'Your locale is:',
         timeZone: 'Your time zone is:',
-        httpBinHeaders: `HTTP headers from ${HTTPBIN_LINK}:`,
+        httpHeaders: `HTTP headers:`,
         services: `Global time services provided by ${OFFICE_MSOFT_LINK} <small>(not affiliated with Microsoft)</small>.`,
         viewing: 'You are viewing:',
-        ipAddressObtained: `IP address obtained from ${IPIFY_LINK}.`,
+        httpBinCredits: `IP address and HTTP headers fetched from ${HTTPBIN_LINK}.`,
         errorFetchingIp: 'Error fetching IP address:',
         errorFetchingHeaders: 'Error fetching headers:',
     },
@@ -46,10 +42,10 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Seu endereço IP público é:',
         locale: 'Sua localidade é:',
         timeZone: 'Seu fuso horário é:',
-        httpBinHeaders: `Cabeçalhos HTTP de ${HTTPBIN_LINK}:`,
+        httpHeaders: `Cabeçalhos HTTP:`,
         services: `Serviços de horário global fornecidos por ${OFFICE_MSOFT_LINK} <small>(não afiliado à Microsoft)</small>.`,
         viewing: 'Você está visualizando:',
-        ipAddressObtained: `Endereço IP obtido de ${IPIFY_LINK}.`,
+        httpBinCredits: `Endereço IP e cabeçalhos HTTP obtidos de ${HTTPBIN_LINK}.`,
         errorFetchingIp: 'Não foi possível obter o endereço IP:',
         errorFetchingHeaders: 'Não foi possível obter os cabeçalhos:',        
     },
@@ -61,25 +57,25 @@ const LOCALE_MESSAGES = {
         ipAddress: 'Tu dirección IP pública es:',
         locale: 'Tu localidad es:',
         timeZone: 'Tu zona horaria es:',
-        httpBinHeaders: `Encabezados HTTP de ${HTTPBIN_LINK}:`,
+        httpHeaders: `Encabezados HTTP:`,
         services: `Servicios de hora global proporcionados por ${OFFICE_MSOFT_LINK} <small>(no afiliado con Microsoft)</small>.`,
         viewing: 'Estás viendo:',
-        ipAddressObtained: `Dirección IP obtenida de ${IPIFY_LINK}.`,
+        httpBinCredits: `Dirección IP y encabezados HTTP obtenidos de ${HTTPBIN_LINK}.`,
         errorFetchingIp: 'No se pudo obtener la dirección IP:',
         errorFetchingHeaders: 'No se pudieron obtener los encabezados:',
     },
     fr: {
         title: 'Heure Office MSoft',
-        timeInUTC: 'L\'heure en UTC est :',
-        timeInChicago: 'L\'heure à Chicago est :',
-        timeInSaoPaulo: 'L\'heure à São Paulo est :',
+        timeInUTC: 'L’heure en UTC est :',
+        timeInChicago: 'L’heure à Chicago est :',
+        timeInSaoPaulo: 'L’heure à São Paulo est :',
         ipAddress: 'Votre adresse IP publique est :',
         locale: 'Votre localité est :',
         timeZone: 'Votre fuseau horaire est :',
-        httpBinHeaders: `En-têtes HTTP de ${HTTPBIN_LINK} :`,
+        httpHeaders: `En-têtes HTTP :`,
         services: `Services de temps global fournis par ${OFFICE_MSOFT_LINK} <small>(non affilié à Microsoft).`,
         viewing: 'Vous consultez :',
-        ipAddressObtained: `Adresse IP obtenue de ${IPIFY_LINK}.`,
+        httpBinCredits: `Adresse IP et en-têtes HTTP récupérés de ${HTTPBIN_LINK}.`,
         errorFetchingIp: 'Impossible de récupérer l’adresse IP :',
         errorFetchingHeaders: 'Impossible de récupérer les en-têtes :',
     },
@@ -103,7 +99,7 @@ const Targets = {
     currentDateTimeChicago:     () => $('#current-date-time-chicago'),
     currentDateTimeSaoPaulo:    () => $('#current-date-time-sao-paulo'),
     ipAddress:                  () => $('#ip-address'),
-    httpBinHeaders:             () => $('#httpbin-headers'),
+    httpHeaders:                () => $('#http-headers'),
 };
 
 ////////////////////////
@@ -121,18 +117,18 @@ function start() {
     let initialView = buildInitialView();
     Targets.appContainer().innerHTML = initialView;
 
-    fetchUserIpFromIpify().then(userIpAddress => {
+    HttpBin.fetchIpAddress().then(userIpAddress => {
         Targets.ipAddress().textContent = userIpAddress;
     })
     .catch(error => {
         Targets.ipAddress().textContent = `${MESSAGES.errorFetchingIp} ${error}`;
     });
 
-    fetchRequestHeadersFromHttpBin().then(httpHeaders => {
-        Targets.httpBinHeaders().textContent = JSON.stringify(httpHeaders, null, 2);
+    HttpBin.fetchHeaders().then(httpHeaders => {
+        Targets.httpHeaders().textContent = JSON.stringify(httpHeaders, null, 2);
     })
     .catch(error => {
-        Targets.httpBinHeaders().textContent = `${MESSAGES.errorFetchingHeaders} ${error}`
+        Targets.httpHeaders().textContent = `${MESSAGES.errorFetchingHeaders} ${error}`
     });
 }
 
@@ -166,11 +162,11 @@ function buildInitialView() {
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
         <hr>
-        <p><small>${MESSAGES.httpBinHeaders}</small></p>
-        <p><small><code id="httpbin-headers"><br><br><br><br><br><br></code></small></p>
+        <p>${MESSAGES.httpHeaders}<b><sup>*</sup></b></p>
+        <p><small><code id="http-headers"><br><br><br><br><br><br></code></small></p>
         <hr>
         <p><small>${MESSAGES.services}</small></p>
-        <p><sup><b>*</b></sup><small>${MESSAGES.ipAddressObtained}</small></p>
+        <p><sup><b>*</b></sup><small>${MESSAGES.httpBinCredits}</small></p>
         <p><small>${MESSAGES.viewing} <a href="${window.location.href}">${window.location.href}</a></small></p>
     `;
 }
