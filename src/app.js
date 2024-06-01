@@ -84,13 +84,10 @@ const LOCALE_MESSAGES = {
         errorFetchingHeaders: 'Impossible de récupérer les en-têtes :',
     },
 };
-const DEFAULT_MESSAGE_LOCALE = 'en-US';
+const DEFAULT_MESSAGE_LOCALE = 'en';
 
-const MESSAGE_LOCALE = navigator.language || DEFAULT_MESSAGE_LOCALE;
-const MESSAGE_LOCALE_MAJOR = MESSAGE_LOCALE.split('-')[0];
-const DEFAULT_MESSAGE_LOCALE_MAJOR = 'pt';//DEFAULT_MESSAGE_LOCALE.split('-')[0];
-
-const MESSAGES = LOCALE_MESSAGES[MESSAGE_LOCALE_MAJOR] || LOCALE_MESSAGES[DEFAULT_MESSAGE_LOCALE_MAJOR];
+const MESSAGE_LOCALE = (navigator.language && navigator.language.split('-')[0]) || DEFAULT_MESSAGE_LOCALE;
+const MESSAGES = LOCALE_MESSAGES[MESSAGE_LOCALE] || LOCALE_MESSAGES[DEFAULT_MESSAGE_LOCALE];
 
 const USER_TIMEZONE = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
