@@ -46,3 +46,7 @@ b {
     font-weight: normal;
     color: #daeeea;
 }
+
+time {
+    font-size: 2em;
+}

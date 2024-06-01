@@ -141,13 +141,13 @@ function buildInitialView() {
     return `
         <h1>${MESSAGES.title}</h1>
         <hr>
-        <p>${MESSAGES.timeInUTC} <b id="current-date-time-utc"></b></p>
-        <p>${MESSAGES.timeInCST} <b id="current-date-time-cst"></b></p>
-        <p>${MESSAGES.timeInBRT} <b id="current-date-time-brt"></b></p>
+        <p>${MESSAGES.timeInUTC} <b><time id="current-date-time-utc"></time></b></p>
+        <p>${MESSAGES.timeInCST} <b><time id="current-date-time-cst"></time></b></p>
+        <p>${MESSAGES.timeInBRT} <b><time id="current-date-time-brt"></time></b></p>
+        <hr>
         <p>${MESSAGES.ipAddress} <b id="ip-address">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></p>
         <p>${MESSAGES.locale} <b>${MESSAGE_LOCALE}</b></p>
         <p>${MESSAGES.timeZone} <b>${USER_TIMEZONE}</b></p>
-        <hr>
         <p><small>${MESSAGES.httpBinHeaders}</small></p>
         <p><small><b id="httpbin-headers"><br><br><br><br><br><br><br><br><br></b></small></p>
         <hr>
