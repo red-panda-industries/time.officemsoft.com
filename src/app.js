@@ -2,7 +2,7 @@
 
 const IPIFY_API_URL = 'https://api.ipify.org?format=json';
 
-function fetchUserIp() {
+function fetchUserIpFromIpify() {
     return fetch(IPIFY_API_URL)
         .then(response => response.json())
         .then(data => data.ip);
@@ -124,7 +124,7 @@ function start() {
     let initialView = buildInitialView();
     Targets.appContainer().innerHTML = initialView;
 
-    fetchUserIp().then(userIpAddress => {
+    fetchUserIpFromIpify().then(userIpAddress => {
         Targets.ipAddress().textContent = userIpAddress;
     })
     .catch(error => {
@@ -142,11 +142,11 @@ function start() {
 const refreshRateInMilliseconds = 1000;
 
 function loop() {
-    updateClockDisplays();
+    updateClockTargets();
     setTimeout(loop, refreshRateInMilliseconds);
 }
 
-function updateClockDisplays() {
+function updateClockTargets() {
     let currentDateTimeUTC = new Date().toLocaleString(MESSAGE_LOCALE, { timeZone: 'UTC' });
     Targets.currentDateTimeUTC().textContent = currentDateTimeUTC;
 
