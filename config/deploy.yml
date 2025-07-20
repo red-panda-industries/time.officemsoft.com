@@ -1,0 +1,19 @@
+service: time-officemsoft-com
+image: red-panda-industries/time.officemsoft.com
+servers:
+  - 1337.attac.us
+
+proxy:
+  ssl: true
+  host: time.officemsoft.com
+
+ssh:
+  user: george
+
+builder:
+  arch: amd64
+
+registry:
+  server: ghcr.io
+  username: jackwillis
+  password: <%= ENV['KAMAL_REGISTRY_PASSWORD'] %>
